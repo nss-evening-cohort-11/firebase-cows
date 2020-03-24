@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import pasture from '../../components/pasture/pasture';
+import farmHouse from '../../components/farmhouse/farmhouse';
 
 const authDiv = $('#auth');
 const pastureDiv = $('#pasture');
@@ -17,6 +18,7 @@ const checkLoginStatus = () => {
       farmhouseDiv.removeClass('hide');
       logoutButton.removeClass('hide');
       pasture.buildCows();
+      farmHouse.buildFarmers();
     } else {
       // person is NOT logged in
       authDiv.removeClass('hide');
