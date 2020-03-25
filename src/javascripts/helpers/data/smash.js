@@ -34,4 +34,19 @@ const getSingleFarmerWithCows = (farmerId) => new Promise((resolve, reject) => {
     .catch((err) => reject(err));
 });
 
-export default { getSingleFarmerWithCows };
+const completelyRemoveCow = (cowId) => new Promise((resolve, reject) => {
+  cowData.deleteCow(cowId)
+    .then(() => {
+      // 1.  GET all farmerCows by cowId
+      farmerCowData.getFarmerCowsByCowId(cowId).then((farmerCows) => {
+        // 2.  loop over all farmerCows from step 1 and DELETE each one
+        farmerCows.forEach((fCow) => {
+          farmerCowData.deleteFarmerCow(fCow.id);
+        });
+        resolve();
+      });
+    })
+    .catch((err) => reject(err));
+});
+
+export default { getSingleFarmerWithCows, completelyRemoveCow };
