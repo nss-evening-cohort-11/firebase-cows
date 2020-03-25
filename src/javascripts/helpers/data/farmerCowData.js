@@ -3,7 +3,6 @@ import apiKeys from '../apiKeys.json';
 
 const baseUrl = apiKeys.firebaseKeys.databaseURL;
 
-
 const getFarmerCowsByFarmerUid = (uid) => new Promise((resolve, reject) => {
   // axios.get(`${baseUrl}/boards.json?orderBy="uid"&equalTo="${uid}"`)
   // axios.get(`${baseUrl}/pins.json?orderBy="boardId"&equalTo="${boardId}"`)
@@ -21,4 +20,21 @@ const getFarmerCowsByFarmerUid = (uid) => new Promise((resolve, reject) => {
     .catch((err) => reject(err));
 });
 
-export default { getFarmerCowsByFarmerUid };
+
+const getFarmerCowsByCowId = (cowId) => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/farmerCows.json?orderBy="cowId"&equalTo="${cowId}"`)
+    .then((response) => {
+      const demFarmerCows = response.data;
+      const farmerCows = [];
+      Object.keys(demFarmerCows).forEach((farmerCowId) => {
+        demFarmerCows[farmerCowId].id = farmerCowId;
+        farmerCows.push(demFarmerCows[farmerCowId]);
+      });
+      resolve(farmerCows);
+    })
+    .catch((err) => reject(err));
+});
+
+const deleteFarmerCow = (fCowId) => axios.delete(`${baseUrl}/farmerCows/${fCowId}.json`);
+
+export default { getFarmerCowsByFarmerUid, getFarmerCowsByCowId, deleteFarmerCow };
