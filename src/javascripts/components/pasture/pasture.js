@@ -2,6 +2,17 @@ import cowData from '../../helpers/data/cowData';
 import utils from '../../helpers/utils';
 import cowComponent from '../cow/cow';
 
+const removeCow = (e) => {
+  const cowId = e.target.closest('.card').id;
+  console.error('cowId', cowId);
+  cowData.deleteCow(cowId)
+    .then(() => {
+      // eslint-disable-next-line no-use-before-define
+      buildCows();
+    })
+    .catch((err) => console.error('could not delete cow', err));
+};
+
 const buildCows = () => {
   cowData.getCows()
     .then((cows) => {
@@ -13,6 +24,7 @@ const buildCows = () => {
       });
       domString += '</div>';
       utils.printToDom('pasture', domString);
+      $('body').on('click', '.delete-cow', removeCow);
     })
     .catch((err) => console.error('get cows broke', err));
 };
