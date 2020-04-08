@@ -8,6 +8,15 @@ const cowMaker = (cow) => {
   domString += `<p class="card-text">Weight: ${cow.weight} lbs</p>`;
   domString += `<p class="card-text">Location: ${cow.location}</p>`;
   domString += '<button class="btn btn-danger delete-cow"><i class="far fa-trash-alt"></i></button>';
+  domString += '<p>Owner(s):</p>';
+  domString += '<form>';
+  cow.farmers.forEach((farmer) => {
+    domString += '<div class="form-check">';
+    domString += `<input type="checkbox" class="form-check-input farmer-cow-checkbox" data-farmer-uid=${farmer.uid} id=${farmer.farmerCowId} ${farmer.isChecked ? 'checked' : ''}>`;
+    domString += `<label class="form-check-label" for="exampleCheck1">${farmer.name}</label>`;
+    domString += '</div>';
+  });
+  domString += '</form>';
   domString += '</div>';
   domString += '</div>';
   domString += '</div>';

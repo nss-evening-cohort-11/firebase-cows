@@ -78,6 +78,7 @@ const getCowsWithOwners = () => new Promise((resolve, reject) => {
               // not owner: undefined !== undefined => false
               // are owner: {age: 83, name: "luke", uid: "12345", id: "farmer2"} !== undefined => true
               farmer.isChecked = isOwner !== undefined;
+              farmer.farmerCowId = isOwner ? isOwner.id : `nope-${cow.id}-${farmer.id}`;
               cow.farmers.push(farmer);
             });
             finalCows.push(cow);
