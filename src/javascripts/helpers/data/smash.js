@@ -49,4 +49,45 @@ const completelyRemoveCow = (cowId) => new Promise((resolve, reject) => {
     .catch((err) => reject(err));
 });
 
-export default { getSingleFarmerWithCows, completelyRemoveCow };
+// [
+//   {
+//     id: "cow1"
+//     breed: "Jersey",
+//     location: "NSS",
+//     name: "Bessie",
+//     weight: 30,
+//     farmers: [
+//       {age: 1000, name: "zoe", uid: "A06GVOBrTNOc6scEZzPrOcij0Yu2", id: "farmer1", isChecked:true},
+//       {age: 83, name: "luke", uid: "12345", id: "farmer2", isChecked: false},
+//       {age: 12, name: "mary", uid: "67890", id: "farmer3",isChecked: false}
+//     ]
+//   }
+// ]
+const getCowsWithOwners = () => new Promise((resolve, reject) => {
+  cowData.getCows()
+    .then((cowsResponse) => {
+      farmerData.getFarmers().then((farmerResponse) => {
+        farmerCowData.getFarmerCows().then((farmerCowResponse) => {
+          const finalCows = [];
+          cowsResponse.forEach((oneCow) => {
+            const cow = { farmers: [], ...oneCow };
+            const farmerCowOwners = farmerCowResponse.filter((x) => x.cowId === cow.id);
+            farmerResponse.forEach((oneFarmer) => {
+              const farmer = { ...oneFarmer };
+              const isOwner = farmerCowOwners.find((x) => x.farmerUid === farmer.uid);
+              // not owner: undefined !== undefined => false
+              // are owner: {age: 83, name: "luke", uid: "12345", id: "farmer2"} !== undefined => true
+              farmer.isChecked = isOwner !== undefined;
+              farmer.farmerCowId = isOwner ? isOwner.id : `nope-${cow.id}-${farmer.id}`;
+              cow.farmers.push(farmer);
+            });
+            finalCows.push(cow);
+          });
+          resolve(finalCows);
+        });
+      });
+    })
+    .catch((err) => reject(err));
+});
+
+export default { getSingleFarmerWithCows, completelyRemoveCow, getCowsWithOwners };
