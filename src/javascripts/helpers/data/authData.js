@@ -9,6 +9,7 @@ const pastureDiv = $('#pasture');
 const farmhouseDiv = $('#farmhouse');
 const singleFarmerDiv = $('#single-farmer');
 const newCowDiv = $('#new-cow');
+const editCowDiv = $('#edit-cow');
 const logoutButton = $('#navbar-logout-button');
 
 const checkLoginStatus = () => {
@@ -20,6 +21,7 @@ const checkLoginStatus = () => {
       farmhouseDiv.removeClass('hide');
       singleFarmerDiv.removeClass('hide');
       newCowDiv.removeClass('hide');
+      editCowDiv.removeClass('hide');
       logoutButton.removeClass('hide');
       pasture.buildCows();
       pasture.pastureEvents();
@@ -31,6 +33,7 @@ const checkLoginStatus = () => {
       farmhouseDiv.addClass('hide');
       singleFarmerDiv.addClass('hide');
       newCowDiv.addClass('hide');
+      editCowDiv.addClass('hide');
       logoutButton.addClass('hide');
     }
   });
