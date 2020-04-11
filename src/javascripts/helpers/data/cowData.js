@@ -20,8 +20,18 @@ const getCows = () => new Promise((resolve, reject) => {
     .catch((err) => reject(err));
 });
 
+const getSingleCow = (cowId) => axios.get(`${baseUrl}/cows/${cowId}.json`);
+
 const deleteCow = (cowId) => axios.delete(`${baseUrl}/cows/${cowId}.json`);
 
 const addCow = (newCow) => axios.post(`${baseUrl}/cows.json`, newCow);
 
-export default { getCows, deleteCow, addCow };
+const updateCow = (cowId, modifiedCow) => axios.put(`${baseUrl}/cows/${cowId}.json`, modifiedCow);
+
+export default {
+  getCows,
+  getSingleCow,
+  deleteCow,
+  addCow,
+  updateCow,
+};
